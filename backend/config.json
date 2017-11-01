@@ -1,0 +1,15 @@
+{ "feeds": [
+		"http://feeds.feedburner.com/RockPaperShotgun",
+		"https://news.ycombinator.com/rss",
+		"http://www.engadget.com/rss.xml",
+		"https://lifehacker.com/rss",
+		"https://www.wired.com/feed/rss",
+		"https://www.theverge.com/rss/index.xml",
+		"http://feeds.arstechnica.com/arstechnica/index",
+		"https://www.anandtech.com/rss/",
+		"http://securiteam.com/securiteam.rss",
+		"http://feeds.feedburner.com/HighScalability",
+		"https://feeds.feedburner.com/VideoCardzcom"
+	],
+	"refreshInterval": 5
+}

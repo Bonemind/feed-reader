@@ -1,11 +1,13 @@
-var express = require('express');
-var rssParser = require('rss-parser');
-var cors = require('cors');
-var app = express();
+"use strict";
+const express = require('express');
+const rssParser = require('rss-parser');
+const cors = require('cors');
+const app = express();
+const config = require('./config');
 app.use(cors());
 
 //const REFRESH_INTERVAL = 5 * 60 * 1000;
-const REFRESH_INTERVAL = 5 * 60 * 1000
+const REFRESH_INTERVAL = config.refreshInterval * 60 * 1000
 
 const loadUrl = (url) => {
 	return new Promise((resolve, reject) => {
@@ -41,7 +43,6 @@ const loadFeeds = (feeds) => {
 	return Promise.all(promises);
 }
 
-feeds = ['http://feeds.feedburner.com/RockPaperShotgun', 'https://news.ycombinator.com/rss'];
 let lastRefresh = new Date('1970-01-01');
 let cachedFeeds = []
 
@@ -50,7 +51,7 @@ app.get('/feeds', (req, res) => {
 		console.log('Within refresh interval, using cache');
 		res.send(cachedFeeds);
 	} else {
-		loadFeeds(feeds).then((resp) => {
+		loadFeeds(config.feeds).then((resp) => {
 			cachedFeeds = resp;
 			res.send(resp);
 			lastRefresh = new Date();
