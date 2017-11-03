@@ -20,12 +20,10 @@ export default class DateSortedEntryView extends Component {
 
 	render() {
 		return (
-			<Container fuid={true}>
-				<FeedEntryColumnDisplay
-					cols={this.props.cols}
-					feedEntries={this.getEntriesDateSorted(this.props.feedEntries)}
-				/>
-			</Container>
+			<FeedEntryColumnDisplay
+				cols={this.props.cols}
+				feedEntries={this.getEntriesDateSorted(this.props.feedEntries)}
+			/>
 		)
 	}
 }
