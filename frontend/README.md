@@ -1,4 +1,4 @@
-# {{ name }}
+# Reader-UI
 
 ## CLI Commands
 
