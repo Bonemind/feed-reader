@@ -4,10 +4,12 @@ const rssParser = require('rss-parser');
 const cors = require('cors');
 const app = express();
 const config = require('./config');
-app.use(cors());
+const serveStatic = require('serve-static');
+var path = require('path');
 
-//const REFRESH_INTERVAL = 5 * 60 * 1000;
 const REFRESH_INTERVAL = config.refreshInterval * 60 * 1000
+const FEEDS_URL = '/feeds.json';
+app.use(cors());
 
 const loadUrl = (url) => {
 	return new Promise((resolve, reject) => {
@@ -46,20 +48,25 @@ const loadFeeds = (feeds) => {
 let lastRefresh = new Date('1970-01-01');
 let cachedFeeds = []
 
-app.get('/feeds', (req, res) => {
+app.get(FEEDS_URL, (req, res) => {
 	if (new Date() - lastRefresh < REFRESH_INTERVAL) {
-		console.log('Within refresh interval, using cache');
+		console.info("Responding with cached feeds");
 		res.send(cachedFeeds);
 	} else {
 		loadFeeds(config.feeds).then((resp) => {
+			console.info("Feed refresh interval passed, refreshing");
 			cachedFeeds = resp;
 			res.send(resp);
 			lastRefresh = new Date();
-			console.log('refreshed feeds');
 		});
 	}
 });
 
+// Allow process to exit when running in docker and receiving ctrl-c
+process.on('SIGINT', function() {
+    process.exit();
+});
+
 app.listen(4000, () => {
-  console.log('Example app listening on port 4000!')
+  console.log('Feedparser running on port 4000')
 });
