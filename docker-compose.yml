@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+
+  frontend:
+    build: ./frontend/reader
+    ports:
+      - "80:80"
+    environment:
+      API_GATEWAY: 'http://backend:4000'
+
